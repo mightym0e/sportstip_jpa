@@ -1,0 +1,30 @@
+#divMain{
+	width: 100%;
+	position: relative;
+}
+
+#divLeft{
+	position: relative;
+	width: 49%;
+	height: auto;
+	float: left;
+} 
+
+#divRight{
+	position: relative;
+	width: 49%;
+	height: auto;
+	float: left;
+}
+
+#divLeft > div{
+	display: block;
+}
+
+#divRight > div{
+	display: block;
+}
+
+.formDiv{
+	height: 50px;
+}
