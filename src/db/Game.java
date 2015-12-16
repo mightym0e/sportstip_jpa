@@ -10,6 +10,7 @@ import java.util.List;
  * The persistent class for the games database table.
  * 
  */
+
 @Entity
 @Table(name="games", schema = "sportstip")
 @NamedQuery(name="Game.findAll", query="SELECT g FROM Game g")
