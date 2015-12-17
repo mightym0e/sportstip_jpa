@@ -1,4 +1,4 @@
-package html;
+package ajax;
 
 import helper.Leagues;
 import j2html.attributes.Attr;
