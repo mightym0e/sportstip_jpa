@@ -1,7 +1,9 @@
 package db;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 
 
@@ -16,6 +18,8 @@ public class Tip implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="tips_tipid_seq", sequenceName="sportstip.tips_tipid_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="tips_tipid_seq")
 	private Integer tipid;
 
 	@Temporal(TemporalType.DATE)

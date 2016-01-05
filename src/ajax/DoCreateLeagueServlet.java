@@ -49,9 +49,10 @@ public class DoCreateLeagueServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String sport = request.getParameter("sport");
 		
-		Leagues.create(name, sport);
+		boolean saved = Leagues.create(name, sport);
 		
-		response.getWriter().println("Liga erfolgreich gespeichert!");
+		if(saved) response.getWriter().println("Liga erfolgreich gespeichert!");
+		else response.getWriter().println("Liga konnte nicht gespeichert werden!");
 	    
 	}
 

@@ -1,7 +1,9 @@
 package db;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="games_gameid_seq", sequenceName="sportstip.games_gameid_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="games_gameid_seq")
 	private Integer gameid;
 
 	@Temporal(TemporalType.DATE)

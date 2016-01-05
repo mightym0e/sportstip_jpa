@@ -3,6 +3,27 @@
 	position: relative;
 }
 
+#login{
+	position: absolute;
+	padding: 15px;
+	top: 30%;
+	width: 40%;
+	left: 30%;
+	background-color: #e7e7e7;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+}
+
+#logout{
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+
+#logout span{
+}
+
 #divLeft{
 	position: relative;
 	width: 49%;
@@ -27,4 +48,8 @@
 
 .formDiv{
 	height: 50px;
+}
+
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color: #CBDAEF;
 }
