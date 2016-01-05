@@ -64,9 +64,9 @@ public class Games {
 			Collection<League> leagues = (Collection<League>)entityManager.createQuery("SELECT l FROM League l").getResultList();
 			for(League league : leagues){
 				ContainerTag option = option().withValue(""+league.getLeagueid()).withText(league.getName());
-				if(selval.equals(league.getLeagueid()) && !isAdmin){
+				if(selval!=null&&selval.equals(league.getLeagueid()) && !isAdmin){
 					return span().withText(league.getName());
-				} else if(selval.equals(league.getLeagueid())) {
+				} else if(selval!=null&&selval.equals(league.getLeagueid())) {
 					option.attr("selected", "selected");
 				}
 				selectLeague.with(option);

@@ -88,7 +88,7 @@ public class CreateGameServlet extends HttpServlet {
 	    Tag gameDate = div().withClass("formDiv").with(input().withId("gameDate").withType("text").withClass("input date"));
 	    Tag gameDay = div().withClass("formDiv").with(input().withId("gameDay").withType("text").withClass("input"));
 	    
-	    out.println(h1().withText("Liga erstellen"));
+	    out.println(h1().withText("Spiel erstellen"));
 	    
 	    out.println(div().withId("divMain").with(
 	    		
