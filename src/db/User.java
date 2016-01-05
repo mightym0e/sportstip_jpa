@@ -1,7 +1,9 @@
 package db;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +19,8 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@SequenceGenerator(name="users_userid_seq", sequenceName="sportstip.users_userid_seq", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="users_userid_seq")
 	private Integer userid;
 
 	@Temporal(TemporalType.DATE)

@@ -16,7 +16,7 @@ public class League implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="leagues_leagueid_seq", sequenceName="leagues_leagueid_seq", allocationSize=1)
+	@SequenceGenerator(name="leagues_leagueid_seq", sequenceName="sportstip.leagues_leagueid_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="leagues_leagueid_seq")
 	private Integer leagueid;
 

@@ -3,6 +3,11 @@
 	<persistence-unit name="sportstip" transaction-type="RESOURCE_LOCAL">
 		<!-- non-jta-data-source>JNDI-name in Java EE</non-jta-data-source -->
 	    <class>db.League</class>
+	    <class>db.Game</class>
+	    <class>db.Tip</class>
+	    <class>db.Tipgroup</class>
+	    <class>db.User</class>
+	    <class>db.UserInTipgroup</class>
 	    <exclude-unlisted-classes />
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/sportstip" />
