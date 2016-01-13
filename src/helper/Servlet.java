@@ -3,9 +3,12 @@ package helper;
 import static j2html.TagCreator.*;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.json.simple.JSONObject;
 
 import db.User;
 import j2html.attributes.Attr;
@@ -15,7 +18,7 @@ import j2html.tags.Tag;
 
 public class Servlet {
 	
-	public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy HH::mm:ss");
 
 	public static Tag getHeader(String controller, boolean withDataTable){
 		ContainerTag head = head().with(
@@ -43,7 +46,7 @@ public class Servlet {
 		
 	}
 	
-	public static Tag getMenu(User user){
+	public static Tag getLogoutMenu(User user){
 		
 		if(user==null)throw new IllegalArgumentException();
 		
@@ -52,6 +55,21 @@ public class Servlet {
 				button().attr("onClick", "window.location.href='LogoutServlet'").withText("logout"));
 		
 		return logout;
+	}
+	
+	public static Tag getMenu(User user){
+		
+		if(user==null)throw new IllegalArgumentException();
+		
+		ContainerTag menu = div().withId("menu").with(
+				ul().with(
+						  li().with(a().withHref("ShowGamesServlet").withText("Spiele")),
+						  li().with(a().withHref("ShowTipsServlet").withText("Tips")),
+						  li().with(a().withText("User"))
+						  )
+				);
+		
+		return menu;
 	}
 	
 	public static void login(HttpSession session, String username, String password){
@@ -63,14 +81,27 @@ public class Servlet {
 		session.invalidate();
 	}
 	
-	public static String checkRequest(HttpSession session, HttpServletRequest request){
+	public static void checkLoginRequest(HttpSession session, HttpServletRequest request){
+		
 		if(request.getParameter("username")!=null){
 			login(session,
 					request.getParameter("username").trim(),
 					request.getParameter("password").trim()
 					);
 		}
-		return "";
+		
+	}
+	
+	public static HashMap<String,String> checkFilterRequest(HttpServletRequest request){
+		HashMap<String,String> ret = new HashMap<String, String>();
+		
+		if(request.getParameter("filter_games")!=null){
+			ret.put("filter_games", "future");
+		}
+		if(request.getParameter("filter_tips")!=null){
+			ret.put("filter_tips", "open");
+		}
+		return ret;
 	}
 	
 }

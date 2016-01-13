@@ -74,8 +74,9 @@ public class CreateLeagueServlet extends HttpServlet {
 		out.println(Servlet.getHeader("league",false).render());
 	    
 	    out.println(body.renderOpenTag()); 
+	    out.println(Servlet.getLogoutMenu(user)); 
 	    out.println(Servlet.getMenu(user)); 
-	    
+
 	    Tag name = div().withClass("formDiv").with(div().withText("Name:").withClass("label"));
 	    Tag sport = div().withClass("formDiv").with(div().withText("Sportart:").withClass("label"));
 	    

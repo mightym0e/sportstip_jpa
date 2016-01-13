@@ -79,7 +79,9 @@ public class CreateUserServlet extends HttpServlet {
 		out.println(Servlet.getHeader("user",false).render());
 	    
 	    out.println(body.renderOpenTag()); 
+	    out.println(Servlet.getLogoutMenu(user)); 
 	    out.println(Servlet.getMenu(user)); 
+
 	    out.println(form().withAction("CreateUserServlet").renderOpenTag());
 	    
 	    Tag nameLabel = div().withClass("formDiv").with(div().withText("User Name:").withClass("label"));

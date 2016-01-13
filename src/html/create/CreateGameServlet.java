@@ -73,8 +73,9 @@ public class CreateGameServlet extends HttpServlet {
 		out.println(Servlet.getHeader("game",false).render());
 	    
 	    out.println(body.renderOpenTag()); 
+	    out.println(Servlet.getLogoutMenu(user)); 
 	    out.println(Servlet.getMenu(user)); 
-	    
+
 	    Tag homeLabel = div().withClass("formDiv").with(div().withText("Heim:").withClass("label"));
 	    Tag guestLabel = div().withClass("formDiv").with(div().withText("Gast:").withClass("label"));
 	    Tag leagueLabel = div().withClass("formDiv").with(div().withText("Liga:").withClass("label"));

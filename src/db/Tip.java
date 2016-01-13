@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.AccessType;
+
 import java.util.Date;
 
 
@@ -37,7 +39,7 @@ public class Tip implements Serializable {
 	private Date updatedAt;
 
 	//bi-directional many-to-one association to Game
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="gameid")
 	private Game game;
 
@@ -117,5 +119,20 @@ public class Tip implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (object == null) {
+			return false;
+		}
+		
+		if(object instanceof Game){
+			if(this.getGame().getGameid().equals(((Game)object).getGameid()))return true;
+			else return false;
+		}
+		
+		return super.equals(object);
+	}
+
 
 }

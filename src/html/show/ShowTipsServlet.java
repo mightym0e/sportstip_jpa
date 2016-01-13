@@ -1,13 +1,19 @@
-package html;
+package html.show;
 
 import helper.Games;
 import helper.Servlet;
+import helper.Tips;
 import j2html.attributes.Attr;
+import j2html.tags.ContainerTag;
+import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
 import static j2html.TagCreator.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import db.Game;
+import db.Tip;
 import db.User;
 
 /**
  * Servlet implementation class ScatterServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/ShowTipsServlet")
+public class ShowTipsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
 	private static final String DOC_TYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";//transitional
@@ -30,7 +38,7 @@ public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public ShowTipsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,17 +54,17 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		HttpSession s = request.getSession(true);
 		
-		Servlet.checkLoginRequest(s, request);
 		User user = s.getAttribute("user")!=null?(User)s.getAttribute("user"):null;
 		
-		if(user!=null){
-			response.sendRedirect("ShowGamesServlet");
+		HashMap<String, String> params = Servlet.checkFilterRequest(request);
+		
+		if(user==null){
+			response.sendRedirect("LoginServlet");
 			return;
 		}
-				
+		
 		response.setContentType(CONTENT_TYPE);
 	    response.setHeader("Cache-Control", "no-cache");
 	    response.setDateHeader("Expires", 0);
@@ -71,31 +79,57 @@ public class LoginServlet extends HttpServlet {
 	    Tag body = body().withId("mainwindow");
 	    
 		out.println(html.renderOpenTag());
-
-		out.println(Servlet.getHeader("login",false).render());
+		
+		out.println(Servlet.getHeader("tip",true).render());
 	    
-		out.println(body.renderOpenTag()); 
-		out.println(form().withMethod("post").withAction("LoginServlet").renderOpenTag()); 
+	    out.println(body.renderOpenTag()); 
 	    
-	    Tag userLabel = div().withClass("formDiv").with(div().withText("User:").withClass("label"));
-	    Tag passwordLabel = div().withClass("formDiv").with(div().withText("Password:").withClass("label"));
+	    out.println(Servlet.getLogoutMenu(user)); 
+	    
+	    out.println(Servlet.getMenu(user)); 
+	    
+	    Tag thead = thead().with(tr().with(th().withText("Heim"),th().withText("Gast"),th().withText("Punkte Heim"),th().withText("Punkte Gast"),th().withText("Liga"),th().withText("Datum")));
+	    
+	    ContainerTag tbody = tbody();
+	    Collection<Game> games = null;
+	    
+	    if(params.containsKey("filter_games")) games = Games.getOpenGames();
+	    else if(params.containsKey("filter_tips")) games = Games.getGamesWithMissingUserTips(user);
+	    else games = Games.getAllGames();
+	    ArrayList<Tip> tips = (ArrayList<Tip>)Tips.getTipsFromUser(user);
+	    
+	    for(Game game : games){
+	    	tbody.children.add(Tips.getTipGamesRow(game, tips));
+	    }
 	    
 	    
-	    Tag userInp = div().withClass("formDiv").with(input().withId("username").withName("username").withType("text").withClass("input"));
-	    Tag passwordInp = div().withClass("formDiv").with(input().withId("password").withName("password").withType("password").withClass("input"));
 	    
-	    out.println(h1().withText("Login"));
+	    ContainerTag table = table().withClass("hover stripe").withId("tips_table").with(
+	    			thead,
+	    			tbody
+	    		);
 	    
-	    out.println(div().withId("login").with(
-	    		
-	    		div().withId("divLeft").with(userLabel,passwordLabel),
-	    		div().withId("divRight").with(userInp,passwordInp),
-	    		br(),
-	    		button().withId("login-btn").withText("anmelden").withType("submit")
+	    out.println(h1().withText("Tips"));
+	    
+	    EmptyTag inputGames = input().withType("checkbox").withId("gamesFilter");
+	    if(params.containsKey("filter_games"))inputGames.attr("checked", "checked");
+	    EmptyTag inputTips = input().withType("checkbox").withId("tipsFilter");
+	    if(params.containsKey("filter_tips"))inputTips.attr("checked", "checked");
+	    
+	    out.println(div().withId("divMain").with(
+	    		inputGames,
+	    		label().attr("for", "gamesFilter").withText("offene Spiele"),
+	    		inputTips,
+	    		label().attr("for", "tipsFilter").withText("offene Tips"),
+	    	    br(),
+	    	    br(),
+	    	    br(),
+	    		table
 	    		
 	    									).render());
 	    
-	    out.println(form().renderCloseTag()); 
+	    out.println(button().withId("save").withText("speichern"));
+	    
 	    out.println(body.renderCloseTag());
 	    out.println(html.renderCloseTag());
 	    
