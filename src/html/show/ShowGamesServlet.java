@@ -79,8 +79,9 @@ public class ShowGamesServlet extends HttpServlet {
 	    
 	    out.println(body.renderOpenTag()); 
 	    
+	    out.println(Servlet.getLogoutMenu(user)); 
 	    out.println(Servlet.getMenu(user)); 
-	    
+
 	    Tag thead = thead().with(tr().with(th().withText("Heim"),th().withText("Gast"),th().withText("Punkte Heim"),th().withText("Punkte Gast"),th().withText("Liga"),th().withText("Datum")));
 	    
 	    ContainerTag tbody = tbody();
@@ -88,7 +89,7 @@ public class ShowGamesServlet extends HttpServlet {
 	    Collection<Game> games = Games.getAllGames();
 	    
 	    for(Game game : games){
-	    	tbody.children.add(Games.getGamesRow(game,false));
+	    	tbody.children.add(Games.getGamesRow(game,user.getIsadmin()));
 	    }
 	    
 	    ContainerTag table = table().withClass("hover stripe").withId("games_table").with(

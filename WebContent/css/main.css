@@ -1,6 +1,63 @@
+body{
+	font-size: 14px;
+}
+
 #divMain{
 	width: 100%;
 	position: relative;
+}
+
+#menu{
+	position: fixed;
+	top: 0px;
+	background-color: #b71a20;
+	-webkit-border-bottom-right-radius: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	left: 50%;
+	transform: translate(-50%);
+}
+
+#menu ul{
+	padding: 0;
+	margin: 0;
+}
+
+#menu ul li{
+	float: left;
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	list-style-type: none;
+	cursor: pointer;
+}
+
+#menu ul li:first-child{
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+#menu ul li:last-child{
+	-webkit-border-bottom-right-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+#menu ul li:hover{
+	background-color: #e7e7e7;
+	color: #b71a20;
+}
+
+#menu ul li a{
+	font-family: Helvetica, sans-serif;
+	font-size: 1em;
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 #login{
@@ -52,4 +109,8 @@
 
 table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
     background-color: #CBDAEF;
+}
+
+tr.edited{
+	background-color: yellow !important;
 }
