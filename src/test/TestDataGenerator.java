@@ -1,6 +1,7 @@
 package test;
 
 import helper.Games;
+import helper.Users;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import db.Game;
+import db.RankingUser;
 import db.Tip;
 import db.User;
 
@@ -34,13 +36,12 @@ public class TestDataGenerator {
 	static public final EntityManagerFactory SPORTSTIP_FACTORY = Persistence.createEntityManagerFactory("sportstip");
 	
 	public static void main(String[] args){
-		generateTips();
+		Collection<RankingUser> users = Users.getUserRanking();
+		System.out.println("");
 	}
 	
 	public static void generate(){
-		
-		int i = 0;
-		
+				
 		JSONParser parser = new JSONParser();
 
 		try {
@@ -130,7 +131,6 @@ public class TestDataGenerator {
 						} catch(Exception e){
 							System.out.println(e.getMessage());
 						} finally {
-							i++;
 							try { entityManager.close(); } catch (final Exception exception) {}
 						}
 					}
@@ -154,30 +154,34 @@ public class TestDataGenerator {
 	public static void generateTips(){
 		
 		Collection<Game> games = Games.getAllGames();
-		Random random = new Random();
-		User user = new User();
-		user.setUserid(1);
 		
 		final EntityManager entityManager = SPORTSTIP_FACTORY.createEntityManager();
 		
 		entityManager.getTransaction().begin();
 		
-		int run = 100;
-		for(Game game : games){
-			if(run==0)break;
-            Tip newTip = new Tip();
-			
-			newTip.setPointsHome(random.nextInt(6));
-			newTip.setPointsGuest(random.nextInt(6));
-			newTip.setUser(user);
-			newTip.setGame(game);
-			
-			newTip.setCreatedAt(new Date());
-			newTip.setUpdatedAt(new Date());
-			
-			entityManager.persist(newTip);	
-			run--;
+		
+		for (int i = 2; i < 5; i++) {
+			Random random = new Random();
+			User user = new User();
+			user.setUserid(i);
+			int run = 100;
+			for(Game game : games){
+				if(run==0)break;
+	            Tip newTip = new Tip();
+				
+				newTip.setPointsHome(random.nextInt(6));
+				newTip.setPointsGuest(random.nextInt(6));
+				newTip.setUser(user);
+				newTip.setGame(game);
+				
+				newTip.setCreatedAt(new Date());
+				newTip.setUpdatedAt(new Date());
+				
+				entityManager.persist(newTip);	
+				run--;
+			}
 		}
+		
 		
 		entityManager.getTransaction().commit();
 	}

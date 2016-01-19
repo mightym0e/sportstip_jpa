@@ -135,7 +135,8 @@ public class Games {
 		Collection<Game> games = null;
 		
 		try {
-			games = (Collection<Game>)entityManager.createQuery("SELECT g FROM Game g where g.gameDate>:gameDate").setParameter("gameDate", new Date()).getResultList();
+			games = (Collection<Game>)entityManager.createQuery("SELECT g FROM Game g where g.gameDate>:gameDate")
+					.setParameter("gameDate", new Date()).getResultList();
 
 			return games;
 		} catch(Exception e){

@@ -16,7 +16,7 @@ $(document).ready(function() {
 		else window.location.href = 'ShowTipsServlet?filter_tips=open';
 	});
 	
-	$("body").on("change", "tr td input", function(){
+	$("body").on("keyup", "tr td input", function(){
 		$(this).closest('tr').addClass("edited");
 	});
 	
@@ -34,7 +34,10 @@ $(document).ready(function() {
 	        url: "DoCreateTipsServlet",
 	        data: params
 	    })
-	    .done (function(data) { alert("Tips erfolgreich gespeichert."); })
+	    .done (function(data) {
+	    	alert("Tips erfolgreich gespeichert."); 
+	    	$('.edited').removeClass('edited');
+	    })
 	    .fail (function()     { alert("Fehler"); })
 	    ;
 	});

@@ -8,6 +8,7 @@
 	    <class>db.Tipgroup</class>
 	    <class>db.User</class>
 	    <class>db.UserInTipgroup</class>
+	    <class>db.RankingUser</class>
 	    <exclude-unlisted-classes />
 		<properties>
 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/sportstip" />

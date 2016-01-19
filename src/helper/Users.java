@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import db.Game;
 import db.League;
+import db.RankingUser;
 import db.User;
 
 public class Users {
@@ -90,6 +91,46 @@ public class Users {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static Collection<RankingUser> getUserRanking(){
+		final EntityManager entityManager = SPORTSTIP_FACTORY.createEntityManager();
+		
+		Collection<RankingUser> users = null;
+		
+		String agregate = 	"	SELECT u.userid, u.username,                                                              "+
+							"	sum(                                                                            "+
+							"	case                                                                            "+
+							"		when t.points_home=g.points_home and t.points_guest=g.points_guest then 5       "+
+							"		when t.points_home-t.points_guest=g.points_home-g.points_guest then 3           "+
+							"		when t.points_home-t.points_guest>0 AND g.points_home-g.points_guest>0          "+
+							"  			OR t.points_home-t.points_guest<0 AND g.points_home-g.points_guest<0          "+
+							"  			OR t.points_home-t.points_guest=0 AND g.points_home-g.points_guest=0 then 1   "+
+							"	else 0                                                                          "+
+							"	end                                                                             "+
+							"	) as points                                                                   "+
+							"	from sportstip.users u                                                          			 "+
+							"	left join sportstip.tips t on u.userid=t.userid                                 "+
+							"	left join sportstip.games g on t.gameid=t.gameid                                "+
+							"	where g.game_date<current_date                                                  "+
+							"                                                                                "+
+							"	group by u.userid, u.username                                                             "+
+							"	order by points desc														";
+		
+		try {
+			users = (Collection<RankingUser>)entityManager.createNativeQuery(agregate, RankingUser.class)
+					.getResultList();
+
+			return users;
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		} finally {
+			try { entityManager.close(); } catch (final Exception exception) {}
+		}
+		
+		return users;
+		
+	}
+	
 	private static String generatePasswordHash(String passwordToHash){
         String generatedPassword = null;
         try {
@@ -109,4 +150,6 @@ public class Users {
         }
         return generatedPassword;
 	}
+
+
 }

@@ -78,8 +78,10 @@ public class Tips {
 
 				Game game = new Game();
 				game.setGameid(Integer.parseInt(key));
-
-				Tip newTip = new Tip();
+				
+				Tip newTip = getTip(entityManager, user, game);
+				
+				if(newTip==null)newTip = new Tip();
 
 				newTip.setPointsHome(Integer.parseInt(tips.get(key)[0]));
 				newTip.setPointsGuest(Integer.parseInt(tips.get(key)[1]));
@@ -123,6 +125,25 @@ public class Tips {
 		}
 
 		return tips;
+
+	}
+	
+	public static Tip getTip(final EntityManager entityManager, User user, Game game){
+		Tip tip = null;
+
+		try {
+			tip = (Tip)entityManager.createQuery("SELECT t FROM Tip t where t.user=:user and t.game=:game")
+					.setParameter("user", user)
+					.setParameter("game", game)
+					.getSingleResult();
+
+			return tip;
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		} finally {
+		}
+
+		return tip;
 
 	}
 
