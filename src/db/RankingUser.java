@@ -19,6 +19,13 @@ public class RankingUser implements Serializable {
 	private String username;
 	
 	private Integer points;
+	
+	private Integer exact;
+	
+	private Integer difference;
+	
+	private Integer result;
+	
 
 	public RankingUser() {
 	}
@@ -60,6 +67,30 @@ public class RankingUser implements Serializable {
 
 	public void setPoints(Integer points) {
 		this.points = points;
+	}
+
+	public Integer getExact() {
+		return exact;
+	}
+
+	public void setExact(Integer exact) {
+		this.exact = exact;
+	}
+
+	public Integer getDifference() {
+		return difference;
+	}
+
+	public void setDifference(Integer difference) {
+		this.difference = difference;
+	}
+
+	public Integer getResult() {
+		return result;
+	}
+
+	public void setResult(Integer result) {
+		this.result = result;
 	}
 	
 	

@@ -1,6 +1,5 @@
 package html.create;
 
-import helper.Games;
 import helper.Servlet;
 import helper.Users;
 import j2html.attributes.Attr;

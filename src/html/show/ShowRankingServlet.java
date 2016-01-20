@@ -1,17 +1,22 @@
 package html.show;
 
-import helper.Games;
+import static j2html.TagCreator.body;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.h1;
+import static j2html.TagCreator.html;
+import static j2html.TagCreator.table;
+import static j2html.TagCreator.tbody;
+import static j2html.TagCreator.th;
+import static j2html.TagCreator.thead;
+import static j2html.TagCreator.tr;
 import helper.Servlet;
-import helper.Tips;
+import helper.Users;
 import j2html.attributes.Attr;
 import j2html.tags.ContainerTag;
-import j2html.tags.EmptyTag;
 import j2html.tags.Tag;
-import static j2html.TagCreator.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -22,14 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import db.Game;
-import db.Tip;
+import db.RankingUser;
 import db.User;
 
 /**
  * Servlet implementation class ScatterServlet
  */
-@WebServlet("/ShowTipsServlet")
+@WebServlet("/ShowRankingServlet")
 public class ShowRankingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
@@ -80,7 +84,7 @@ public class ShowRankingServlet extends HttpServlet {
 	    
 		out.println(html.renderOpenTag());
 		
-		out.println(Servlet.getHeader("tip",true).render());
+		out.println(Servlet.getHeader("ranking",true).render());
 	    
 	    out.println(body.renderOpenTag()); 
 	    
@@ -88,47 +92,33 @@ public class ShowRankingServlet extends HttpServlet {
 	    
 	    out.println(Servlet.getMenu(user)); 
 	    
-	    Tag thead = thead().with(tr().with(th().withText("Heim"),th().withText("Gast"),th().withText("Punkte Heim"),th().withText("Punkte Gast"),th().withText("Liga"),th().withText("Datum")));
+	    Tag thead = thead().with(tr().with(th().withText("Platz"),th().withText("Benutzer"),th().withText("Punkte"),th().withText("Exakte Tips"),th().withText("Richtiger Unterschied"),th().withText("Richtiges Ergebnis")));
 	    
 	    ContainerTag tbody = tbody();
-	    Collection<Game> games = null;
+	    Collection<RankingUser> rankingUsers = null;
 	    
-	    if(params.containsKey("filter_games")) games = Games.getOpenGames();
-	    else if(params.containsKey("filter_tips")) games = Games.getGamesWithMissingUserTips(user);
-	    else games = Games.getAllGames();
-	    ArrayList<Tip> tips = (ArrayList<Tip>)Tips.getTipsFromUser(user);
+	    rankingUsers = Users.getUserRanking();
 	    
-	    for(Game game : games){
-	    	tbody.children.add(Tips.getTipGamesRow(game, tips));
+	    int position=1;
+	    for(RankingUser rankingUser : rankingUsers){
+	    	tbody.children.add(Users.getUserRankingRow(rankingUser, position, rankingUser.getUserid().equals(user.getUserid())));
+	    	position++;
 	    }
 	    
 	    
 	    
-	    ContainerTag table = table().withClass("hover stripe").withId("tips_table").with(
+	    ContainerTag table = table().withClass("hover stripe").withId("ranking_table").with(
 	    			thead,
 	    			tbody
 	    		);
 	    
-	    out.println(h1().withText("Tips"));
-	    
-	    EmptyTag inputGames = input().withType("checkbox").withId("gamesFilter");
-	    if(params.containsKey("filter_games"))inputGames.attr("checked", "checked");
-	    EmptyTag inputTips = input().withType("checkbox").withId("tipsFilter");
-	    if(params.containsKey("filter_tips"))inputTips.attr("checked", "checked");
+	    out.println(h1().withText("Ranking"));
 	    
 	    out.println(div().withId("divMain").with(
-	    		inputGames,
-	    		label().attr("for", "gamesFilter").withText("offene Spiele"),
-	    		inputTips,
-	    		label().attr("for", "tipsFilter").withText("offene Tips"),
-	    	    br(),
-	    	    br(),
-	    	    br(),
+	    		
 	    		table
 	    		
 	    									).render());
-	    
-	    out.println(button().withId("save").withText("speichern"));
 	    
 	    out.println(body.renderCloseTag());
 	    out.println(html.renderCloseTag());

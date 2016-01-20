@@ -1,23 +1,20 @@
 package helper;
 
 
+import static j2html.TagCreator.td;
+import static j2html.TagCreator.tr;
 import j2html.tags.ContainerTag;
-import j2html.tags.Tag;
-import static j2html.TagCreator.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 
-import db.Game;
-import db.League;
 import db.RankingUser;
 import db.User;
 
@@ -97,7 +94,7 @@ public class Users {
 		
 		Collection<RankingUser> users = null;
 		
-		String agregate = 	"	SELECT u.userid, u.username,                                                              "+
+		String aggregate = 	"	SELECT u.userid, u.username,                                                              "+
 							"	sum(                                                                            "+
 							"	case                                                                            "+
 							"		when t.points_home=g.points_home and t.points_guest=g.points_guest then 5       "+
@@ -105,9 +102,29 @@ public class Users {
 							"		when t.points_home-t.points_guest>0 AND g.points_home-g.points_guest>0          "+
 							"  			OR t.points_home-t.points_guest<0 AND g.points_home-g.points_guest<0          "+
 							"  			OR t.points_home-t.points_guest=0 AND g.points_home-g.points_guest=0 then 1   "+
-							"	else 0                                                                          "+
-							"	end                                                                             "+
-							"	) as points                                                                   "+
+							"	else 0                                                                          	"+
+							"	end                                                                             	"+
+							"	) as points,                                                              			"+
+							"	sum(                                                                            	"+
+							"	case                                                                            	"+
+							"		when t.points_home=g.points_home and t.points_guest=g.points_guest then 1       "+
+							"	else 0                                                                          		"+
+							"	end                                                                             		"+
+							"	) as exact,                                                              			"+
+							"	sum(                                                                            	"+
+							"	case                                                                            	"+
+							"		when t.points_home-t.points_guest=g.points_home-g.points_guest then 1           "+
+							"	else 0                                                                          		"+
+							"	end                                                                             		"+
+							"	) as difference,                                                              			"+
+							"	sum(                                                                            	"+
+							"	case                                                                            	"+
+							"		when t.points_home-t.points_guest>0 AND g.points_home-g.points_guest>0          "+
+							"  			OR t.points_home-t.points_guest<0 AND g.points_home-g.points_guest<0          "+
+							"  			OR t.points_home-t.points_guest=0 AND g.points_home-g.points_guest=0 then 1   "+
+							"	else 0                                                                          		"+
+							"	end                                                                             		"+
+							"	) as result																				"+
 							"	from sportstip.users u                                                          			 "+
 							"	left join sportstip.tips t on u.userid=t.userid                                 "+
 							"	left join sportstip.games g on t.gameid=t.gameid                                "+
@@ -117,7 +134,7 @@ public class Users {
 							"	order by points desc														";
 		
 		try {
-			users = (Collection<RankingUser>)entityManager.createNativeQuery(agregate, RankingUser.class)
+			users = (Collection<RankingUser>)entityManager.createNativeQuery(aggregate, RankingUser.class)
 					.getResultList();
 
 			return users;
@@ -129,6 +146,22 @@ public class Users {
 		
 		return users;
 		
+	}
+	
+	public static ContainerTag getUserRankingRow(RankingUser rankingUser, int position, boolean isCurrentUser){
+
+		ContainerTag tr = tr().withId(""+rankingUser.getUserid());
+		if(isCurrentUser)tr.withClass("active");
+
+		tr.children.add(td().withText(""+position));
+		tr.children.add(td().withText(rankingUser.getUsername()));
+		tr.children.add(td().withText(""+rankingUser.getPoints()));
+		tr.children.add(td().withText(""+rankingUser.getExact()));
+		tr.children.add(td().withText(""+rankingUser.getDifference()));
+		tr.children.add(td().withText(""+rankingUser.getResult()));
+
+		return tr;
+
 	}
 	
 	private static String generatePasswordHash(String passwordToHash){

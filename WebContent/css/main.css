@@ -114,3 +114,8 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 tr.edited{
 	background-color: yellow !important;
 }
+
+tr.active{
+	background-color: blue !important;
+	color: white !important;
+}
