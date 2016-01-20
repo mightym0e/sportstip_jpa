@@ -1,13 +1,8 @@
 package ajax;
 
 import helper.Leagues;
-import j2html.attributes.Attr;
-import j2html.tags.Tag;
-import static j2html.TagCreator.*;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import db.User;
+
 /**
  * Servlet implementation class ScatterServlet
  */
 @WebServlet("/DoCreateLeagueServlet")
 public class DoCreateLeagueServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
-	private static final String DOC_TYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";//transitional
    
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,6 +40,13 @@ public class DoCreateLeagueServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession s = request.getSession(false);
+		
+		User user = s.getAttribute("user")!=null?(User)s.getAttribute("user"):null;
+				
+		if(user==null){
+			response.sendRedirect("LoginServlet");
+			return;
+		}
 				
 		String name = request.getParameter("name");
 		String sport = request.getParameter("sport");

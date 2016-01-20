@@ -1,6 +1,5 @@
 package html;
 
-import helper.Games;
 import helper.Servlet;
 import j2html.attributes.Attr;
 import j2html.tags.Tag;

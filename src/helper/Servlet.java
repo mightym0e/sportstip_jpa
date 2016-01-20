@@ -8,8 +8,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
-
 import db.User;
 import j2html.attributes.Attr;
 import j2html.tags.ContainerTag;
@@ -65,6 +63,7 @@ public class Servlet {
 				ul().with(
 						  li().with(a().withHref("ShowGamesServlet").withText("Spiele")),
 						  li().with(a().withHref("ShowTipsServlet").withText("Tips")),
+						  li().with(a().withHref("ShowRankingServlet").withText("Ranking")),
 						  li().with(a().withText("User"))
 						  )
 				);

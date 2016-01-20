@@ -1,24 +1,21 @@
 package helper;
 
 
+import static j2html.TagCreator.input;
+import static j2html.TagCreator.td;
+import static j2html.TagCreator.tr;
 import j2html.tags.ContainerTag;
-import j2html.tags.Tag;
-import static j2html.TagCreator.*;
 
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import db.Game;
-import db.League;
 import db.Tip;
 import db.Tipgroup;
 import db.User;

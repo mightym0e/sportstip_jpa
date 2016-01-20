@@ -88,7 +88,6 @@ public class Games {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static League getGameLeague(Integer selval){
 		final EntityManager entityManager = SPORTSTIP_FACTORY.createEntityManager();
 

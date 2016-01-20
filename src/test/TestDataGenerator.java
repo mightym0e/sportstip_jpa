@@ -25,7 +25,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import db.Game;
-import db.RankingUser;
 import db.Tip;
 import db.User;
 
@@ -36,8 +35,7 @@ public class TestDataGenerator {
 	static public final EntityManagerFactory SPORTSTIP_FACTORY = Persistence.createEntityManagerFactory("sportstip");
 	
 	public static void main(String[] args){
-		Collection<RankingUser> users = Users.getUserRanking();
-		System.out.println("");
+		generate();
 	}
 	
 	public static void generate(){

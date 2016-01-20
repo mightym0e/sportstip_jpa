@@ -1,6 +1,5 @@
 package html.create;
 
-import helper.Leagues;
 import helper.Servlet;
 import j2html.attributes.Attr;
 import j2html.tags.Tag;
@@ -8,7 +7,6 @@ import static j2html.TagCreator.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

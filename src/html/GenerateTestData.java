@@ -16,8 +16,6 @@ import test.TestDataGenerator;
 @WebServlet("/GenerateTestData")
 public class GenerateTestData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
-	private static final String DOC_TYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";//transitional
    
     /**
      * @see HttpServlet#HttpServlet()
@@ -39,7 +37,7 @@ public class GenerateTestData extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		TestDataGenerator.generate();
+//		TestDataGenerator.generate();
 	    
 	}
 
