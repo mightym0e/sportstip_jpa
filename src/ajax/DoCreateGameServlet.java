@@ -5,7 +5,6 @@ import helper.Servlet;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,6 +41,7 @@ public class DoCreateGameServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType(Servlet.CONTENT_TYPE);
 		HttpSession s = request.getSession(false);
 						
 		User user = s.getAttribute("user")!=null?(User)s.getAttribute("user"):null;

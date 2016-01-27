@@ -1,6 +1,7 @@
 package ajax;
 
 import helper.Leagues;
+import helper.Servlet;
 
 import java.io.IOException;
 
@@ -39,6 +40,7 @@ public class DoCreateLeagueServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType(Servlet.CONTENT_TYPE);
 		HttpSession s = request.getSession(false);
 		
 		User user = s.getAttribute("user")!=null?(User)s.getAttribute("user"):null;

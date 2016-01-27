@@ -1,6 +1,7 @@
 package html.create;
 
 import helper.Servlet;
+import helper.Tipgroups;
 import helper.Users;
 import j2html.attributes.Attr;
 import j2html.tags.Tag;
@@ -21,14 +22,14 @@ import db.User;
 /**
  * Servlet implementation class ScatterServlet
  */
-@WebServlet("/CreateUserServlet")
-public class CreateUserServlet extends HttpServlet {
+@WebServlet("/CreateTipgroupServlet")
+public class CreateTipgroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateUserServlet() {
+    public CreateTipgroupServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,9 +46,6 @@ public class CreateUserServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String message = Users.checkRequest(request);
-		
-		System.out.println(message);
 		
 		HttpSession s = request.getSession(true);
 				
@@ -57,6 +55,8 @@ public class CreateUserServlet extends HttpServlet {
 			response.sendRedirect("LoginServlet");
 			return;
 		}
+		
+		String message = Tipgroups.checkRequest(request, user);
 		
 		response.setContentType(Servlet.CONTENT_TYPE);
 	    response.setHeader("Cache-Control", "no-cache");
@@ -73,31 +73,24 @@ public class CreateUserServlet extends HttpServlet {
 	    
 		out.println(html.renderOpenTag());
 
-		out.println(Servlet.getHeader("user",false).render());
+		out.println(Servlet.getHeader("tipgroup",false).render());
 	    
 	    out.println(body.renderOpenTag()); 
 	    out.println(Servlet.getLogoutMenu(user)); 
 	    out.println(Servlet.getMenu(user)); 
 
-	    out.println(form().withAction("CreateUserServlet").renderOpenTag());
+	    out.println(form().withAction("CreateTipgroupServlet").renderOpenTag());
 	    
-	    Tag nameLabel = div().withClass("formDiv").with(div().withText("User Name:").withClass("label"));
-	    Tag emailtLabel = div().withClass("formDiv").with(div().withText("E-Mail:").withClass("label"));
-	    Tag isAdminLabel = div().withClass("formDiv").with(div().withText("Admin:").withClass("label"));
-	    Tag passwordLabel = div().withClass("formDiv").with(div().withText("Password:").withClass("label"));
+	    Tag nameLabel = div().withClass("formDiv").with(div().withText("Tipgruppe Name:").withClass("label"));
 	    
+	    Tag nameInp = div().withClass("formDiv").with(input().withId("tipgroup").withName("tipgroup").withType("text").withClass("input"));
 	    
-	    Tag nameInp = div().withClass("formDiv").with(input().withId("username").withName("username").withType("text").withClass("input"));
-	    Tag emailInp = div().withClass("formDiv").with(input().withId("email").withName("email").withType("email").withClass("input"));
-	    Tag isAdminInp = div().withClass("formDiv").with(input().withId("isadmin").withName("isadmin").withType("checkbox").withClass("checkbox"));
-	    Tag passwordInp = div().withClass("formDiv").with(input().withId("password").withName("password").withType("password").withClass("input"));
-	    
-	    out.println(h1().withText("Liga erstellen"));
+	    out.println(h1().withText("Tipgruppe erstellen"));
 	    
 	    out.println(div().withId("divMain").with(
 	    		
-	    		div().withId("divLeft").with(nameLabel,emailtLabel,isAdminLabel,passwordLabel),
-	    		div().withId("divRight").with(nameInp,emailInp,isAdminInp,passwordInp)
+	    		div().withId("divLeft").with(nameLabel),
+	    		div().withId("divRight").with(nameInp)
 	    		
 	    									).render());
 	    
