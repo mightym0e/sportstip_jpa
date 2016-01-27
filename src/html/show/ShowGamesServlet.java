@@ -27,8 +27,6 @@ import db.User;
 @WebServlet("/ShowGamesServlet")
 public class ShowGamesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String CONTENT_TYPE = "text/html; charset=UTF-8";
-	private static final String DOC_TYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";//transitional
    
     /**
      * @see HttpServlet#HttpServlet()
@@ -58,7 +56,7 @@ public class ShowGamesServlet extends HttpServlet {
 			return;
 		}
 		
-		response.setContentType(CONTENT_TYPE);
+		response.setContentType(Servlet.CONTENT_TYPE);
 	    response.setHeader("Cache-Control", "no-cache");
 	    response.setDateHeader("Expires", 0);
 	    response.setHeader("Pragma", "no-cache");
@@ -66,7 +64,7 @@ public class ShowGamesServlet extends HttpServlet {
 	      
 	    PrintWriter out = response.getWriter();
 	    out.println("<?xml version=\"1.0\"?>");
-	    out.println(DOC_TYPE);
+	    out.println(Servlet.DOC_TYPE);
 	    
 	    Tag html = html().attr("xmlns", "http://www.w3.org/1999/xhtml").attr("xml:lang","en").attr(Attr.LANG,"en");
 	    Tag body = body().withId("mainwindow");
@@ -96,6 +94,10 @@ public class ShowGamesServlet extends HttpServlet {
 	    		);
 	    
 	    out.println(h1().withText("Games"));
+	    
+	    if(user.getIsadmin()!=null&&user.getIsadmin())out.println(button().withId("synchronize").withText("Synchronisieren")); 
+	    
+	    out.println(br().render() + br().render()); 
 	    
 	    out.println(div().withId("divMain").with(
 	    		

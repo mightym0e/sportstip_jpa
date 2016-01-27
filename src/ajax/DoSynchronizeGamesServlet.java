@@ -1,11 +1,9 @@
 package ajax;
 
+import helper.Games;
 import helper.Servlet;
-import helper.Tips;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +17,14 @@ import db.User;
 /**
  * Servlet implementation class ScatterServlet
  */
-@WebServlet("/DoCreateTipsServlet")
-public class DoCreateTipsServlet extends HttpServlet {
+@WebServlet("/DoSynchronizeGamesServlet")
+public class DoSynchronizeGamesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DoCreateTipsServlet() {
+    public DoSynchronizeGamesServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,35 +42,18 @@ public class DoCreateTipsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType(Servlet.CONTENT_TYPE);
 		HttpSession s = request.getSession(false);
+		
 		User user = s.getAttribute("user")!=null?(User)s.getAttribute("user"):null;
+				
 		if(user==null){
 			response.sendRedirect("LoginServlet");
 			return;
+		} else if(user.getIsadmin()==null||!user.getIsadmin()){
+			response.getWriter().println("Diese Funktion darf nur von Administratoren genutzt werden!");
+		} else {
+			Games.synchronizeGames(2015);
+			response.getWriter().println("Spiele für 2015 synchronisiert!");
 		}
-		
-		try {
-			HashMap<String, String[]> tips = new HashMap<String, String[]>();
-			
-			Enumeration<String> parameterNames = request.getParameterNames();
-
-			while (parameterNames.hasMoreElements()) {
-			    String paramName = parameterNames.nextElement();
-
-			    String[] paramValues = request.getParameterValues(paramName);
-				
-			    paramName = paramName.substring(0,paramName.length()-2);
-			    
-			    tips.put(paramName, paramValues);
-			}
-			
-			Tips.createAll(tips, user);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.getWriter().println("Tip konnte nicht gespeichert werden!");
-		}
-		
-		
 	    
 	}
 

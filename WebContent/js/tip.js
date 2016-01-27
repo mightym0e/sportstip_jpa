@@ -1,7 +1,18 @@
 $(document).ready(function() {
 
 	if($('#tips_table')){
-		$('#tips_table').DataTable(  );
+		$('#tips_table').DataTable( 
+				{
+			        "columns": [
+			            null,
+			            null,
+			            { "orderDataType": "dom-text", type: 'string' },
+			            { "orderDataType": "dom-text", type: 'string' },
+			            null,
+			            null
+			        ]
+			    }
+		);
 	}
 	
 	$( "#gamesFilter, #tipsFilter" ).button();

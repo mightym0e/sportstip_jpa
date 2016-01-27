@@ -15,6 +15,16 @@ $(document).ready(function() {
 		    }
 		});
 	});
+	$("#synchronize").click(function(){
+		$.ajax({
+		    type: 'POST',
+		    url: 'DoSynchronizeGamesServlet',
+		    success: function(msg){
+		        alert(msg);
+		        window.location.reload();
+		    }
+		});
+	});
 	if($('#games_table')){
 		$('#games_table').DataTable(  );
 	}
