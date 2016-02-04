@@ -1,9 +1,7 @@
 package db;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import java.util.List;
  * The persistent class for the games database table.
  * 
  */
-
 @Entity
 @Table(name="games", schema = "sportstip")
 @NamedQuery(name="Game.findAll", query="SELECT g FROM Game g")
@@ -36,9 +33,6 @@ public class Game implements Serializable {
 
 	private String home;
 
-	@Column(name="league_id")
-	private Integer leagueId;
-
 	private Integer matchday;
 
 	@Column(name="points_guest")
@@ -50,6 +44,11 @@ public class Game implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="updated_at")
 	private Date updatedAt;
+
+	//bi-directional many-to-one association to League
+	@ManyToOne
+	@JoinColumn(name="leagueid")
+	private League league;
 
 	//bi-directional many-to-one association to Tip
 	@OneToMany(mappedBy="game")
@@ -98,14 +97,6 @@ public class Game implements Serializable {
 		this.home = home;
 	}
 
-	public Integer getLeagueId() {
-		return this.leagueId;
-	}
-
-	public void setLeagueId(Integer leagueId) {
-		this.leagueId = leagueId;
-	}
-
 	public Integer getMatchday() {
 		return this.matchday;
 	}
@@ -136,6 +127,14 @@ public class Game implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public League getLeague() {
+		return this.league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
 	}
 
 	public List<Tip> getTips() {

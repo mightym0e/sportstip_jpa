@@ -93,7 +93,7 @@ public class ShowGamesServlet extends HttpServlet {
 	    			tbody
 	    		);
 	    
-	    out.println(h1().withText("Games"));
+	    out.println(h1().withText("Spiele"));
 	    
 	    if(user.getIsadmin()!=null&&user.getIsadmin())out.println(button().withId("synchronize").withText("Synchronisieren")); 
 	    

@@ -92,7 +92,7 @@ public class CreateUserServlet extends HttpServlet {
 	    Tag isAdminInp = div().withClass("formDiv").with(input().withId("isadmin").withName("isadmin").withType("checkbox").withClass("checkbox"));
 	    Tag passwordInp = div().withClass("formDiv").with(input().withId("password").withName("password").withType("password").withClass("input"));
 	    
-	    out.println(h1().withText("Liga erstellen"));
+	    out.println(h1().withText("User erstellen"));
 	    
 	    out.println(div().withId("divMain").with(
 	    		

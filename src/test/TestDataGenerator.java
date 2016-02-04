@@ -25,6 +25,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import db.Game;
+import db.League;
 import db.Tip;
 import db.User;
 
@@ -108,10 +109,13 @@ public class TestDataGenerator {
 							entityManager.getTransaction().begin();
 
 							Game newGame = new Game();
-
+							League league = new League();
+							league.setLeagueid(league_id);;
+							
+							
 							newGame.setHome(home);
 							newGame.setGuest(guest);
-							newGame.setLeagueId(league_id);
+							newGame.setLeague(league);
 							newGame.setGameDate(game_date);
 							newGame.setMatchday(matchday);
 							

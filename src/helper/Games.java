@@ -58,7 +58,8 @@ public class Games {
 
 				String home = null;
 				String guest = null;
-				Integer league_id = 2;
+				League league = new League();
+				league.setLeagueid(2);
 				Date game_date = null;
 				Integer matchday = 0;
 				Integer pointsHome = null;
@@ -118,7 +119,7 @@ public class Games {
 
 							updatedGame.setHome(home);
 							updatedGame.setGuest(guest);
-							updatedGame.setLeagueId(league_id);
+							updatedGame.setLeague(league);
 							updatedGame.setGameDate(game_date);
 							updatedGame.setMatchday(matchday);
 							
@@ -162,10 +163,12 @@ public class Games {
 			entityManager.getTransaction().begin();
 			
             Game newGame = new Game();
+            League league = new League();
+			league.setLeagueid(league_id);
 			
 			newGame.setHome(home);
 			newGame.setGuest(guest);
-			newGame.setLeagueId(league_id);
+			newGame.setLeague(league);
 			newGame.setGameDate(game_date);
 			newGame.setMatchday(matchday);
 			
@@ -329,7 +332,7 @@ public class Games {
 	    	tr.children.add(td().withText(game.getGuest()));
 	    	tr.children.add(td().withText(game.getPointsHome()!=null?game.getPointsHome().toString():""));
 	    	tr.children.add(td().withText(game.getPointsGuest()!=null?game.getPointsGuest().toString():""));
-	    	tr.children.add(td().with(Games.getLeagueSelect(game.getLeagueId(),isAdmin)));
+	    	tr.children.add(td().with(Games.getLeagueSelect(game.getLeague().getLeagueid(),isAdmin)));
 	    	tr.children.add(td().withText(Servlet.DATE_FORMAT.format(game.getGameDate())));
 //		}
 		

@@ -167,14 +167,14 @@ public class Tips {
 			tr.children.add(td().withText(game.getGuest()));
 			tr.children.add(td().withText(homeStr));
 			tr.children.add(td().withText(guestStr));
-			tr.children.add(td().withText(Games.getGameLeague(game.getLeagueId()).getName()));
+			tr.children.add(td().withText(Games.getGameLeague(game.getLeague().getLeagueid()).getName()));
 			tr.children.add(td().withText(Servlet.DATE_FORMAT.format(game.getGameDate())));
 		} else {
 			tr.children.add(td().withText(game.getHome()));
 			tr.children.add(td().withText(game.getGuest()));
 			tr.children.add(td().with(input().withClass("points_home").withType("text").withValue(homeStr)));
 			tr.children.add(td().with(input().withClass("points_guest").withType("text").withValue(guestStr)));
-			tr.children.add(td().withText(Games.getGameLeague(game.getLeagueId()).getName()));
+			tr.children.add(td().withText(Games.getGameLeague(game.getLeague().getLeagueid()).getName()));
 			tr.children.add(td().withText(Servlet.DATE_FORMAT.format(game.getGameDate())));
 		} 
 
