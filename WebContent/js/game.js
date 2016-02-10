@@ -11,7 +11,7 @@ $(document).ready(function() {
 		        'gameDay': $("#gameDay").val()
 		    },
 		    success: function(msg){
-		        alert(msg);
+		    	showSuccessMsg(msg);
 		    }
 		});
 	});
@@ -20,8 +20,7 @@ $(document).ready(function() {
 		    type: 'POST',
 		    url: 'DoSynchronizeGamesServlet',
 		    success: function(msg){
-		        alert(msg);
-		        window.location.reload();
+		        window.location.href = window.location.href+'?msg='+encodeURIComponent(msg);
 		    }
 		});
 	});
