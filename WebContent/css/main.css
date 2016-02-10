@@ -119,3 +119,21 @@ tr.active{
 	background-color: blue !important;
 	color: white !important;
 }
+
+#success_box {
+    background-color: #000000;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #efefef;
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    left: 30%;
+    padding-top: 10px;
+    position: absolute;
+    right: 30%;
+    text-align: center;
+    top: 0;
+    z-index: 1000;
+}

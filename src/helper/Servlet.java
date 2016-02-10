@@ -3,7 +3,10 @@ package helper;
 import static j2html.TagCreator.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -61,16 +64,29 @@ public class Servlet {
 		
 		if(user==null)throw new IllegalArgumentException();
 		
-		ContainerTag menu = div().withId("menu").with(
-				ul().with(
-						  li().with(a().withHref("ShowGamesServlet").withText("Spiele")),
-						  li().with(a().withHref("ShowTipsServlet").withText("Tips")),
-						  li().with(a().withHref("ShowRankingServlet").withText("Ranking")),
-						  li().with(a().withText("User"))
-						  )
-				);
+		Collection<ContainerTag> tags = new ArrayList<ContainerTag>();
 		
-		return menu;
+		tags.add(li().with(a().withHref("ShowGamesServlet").withText("Spiele")));
+		tags.add( li().with(a().withHref("ShowTipsServlet").withText("Tips")));
+		tags.add( li().with(a().withHref("ShowRankingServlet").withText("Ranking")));
+		tags.add( li().with(a().withHref("ShowLeaguesServlet").withText("Ligen")));
+		
+		if(user.getIsadmin()){
+			tags.add(li().with(a().withHref("CreateLeagueServlet").withText("Liga erstellen")));
+		}
+		
+		tags.add(li().with(a().withText("User")));
+		
+		
+		ContainerTag menu = div().withId("menu");
+		
+		ContainerTag ul = ul();
+		
+		for(ContainerTag tag : tags){
+			ul.with(tag);
+		}
+		
+		return menu.with(ul);
 	}
 	
 	public static void login(HttpSession session, String username, String password){

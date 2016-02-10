@@ -46,10 +46,10 @@ $(document).ready(function() {
 	        data: params
 	    })
 	    .done (function(data) {
-	    	alert("Tips erfolgreich gespeichert."); 
+	    	showSuccessMsg("Tips erfolgreich gespeichert.");
 	    	$('.edited').removeClass('edited');
 	    })
-	    .fail (function()     { alert("Fehler"); })
+	    .fail (function()     { showSuccessMsg("Fehler"); })
 	    ;
 	});
 	

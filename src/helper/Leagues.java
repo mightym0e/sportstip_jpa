@@ -1,12 +1,18 @@
 package helper;
 
 
+import static j2html.TagCreator.td;
+import static j2html.TagCreator.tr;
+import j2html.tags.ContainerTag;
+
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import db.Game;
 import db.League;
 
 public class Leagues {
@@ -52,6 +58,33 @@ public class Leagues {
 		}
 		
 		return false;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Collection<League> getAllLeagues(){
+		final EntityManager entityManager = SPORTSTIP_FACTORY.createEntityManager();
+
+		Collection<League> leagues = null;
+		
+		try {
+			leagues = (Collection<League>)entityManager.createQuery("SELECT l FROM League l").getResultList();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+		} finally {
+			try { entityManager.close(); } catch (final Exception exception) {}
+		}
+		return leagues;
+	}
+	
+	public static ContainerTag getLeaguesRow(League league, boolean isAdmin){
+		ContainerTag tr = tr();
+		tr.children.add(td().withText(""+league.getLeagueid()));
+		tr.children.add(td().withText(league.getName()));
+		tr.children.add(td().withText(league.getSport()));
+
+
+		return tr;
 		
 	}
 
